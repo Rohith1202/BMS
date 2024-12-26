@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BMS - Dashboard</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      :root {
+        --sidebar-width: 250px;
+        --header-height: 70px;
+        --primary-color: #1e3c72;
+        --secondary-color: #ff7e5f;
+        --hover-color: #2a5298;
+      }
+
+      body {
+        min-height: 100vh;
+        background: #f5f7fa;
+      }
+
+      /* Sidebar Styles */
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: var(--sidebar-width);
+        background: var(--primary-color);
+        color: white;
+        padding: 1rem;
+        transition: 0.3s;
+        z-index: 1000;
+      }
+
+      .sidebar-header {
+        padding: 1rem;
+        text-align: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 1rem;
+      }
+
+      .sidebar-header img {
+        width: 120px;
+        margin-bottom: 1rem;
+      }
+
+      .nav-item {
+        padding: 0.8rem 1rem;
+        margin: 0.2rem 0;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .nav-item:hover {
+        background: var(--hover-color);
+      }
+
+      .nav-item.active {
+        background: var(--secondary-color);
+      }
+
+      /* Header Styles */
+      .header {
+        position: fixed;
+        right: 0;
+        top: 0;
+        left: var(--sidebar-width);
+        height: var(--header-height);
+        background: white;
+        padding: 1rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+      }
+
+      .search-bar {
+        flex: 1;
+        max-width: 400px;
+        margin-right: 2rem;
+      }
+
+      .search-bar input {
+        width: 100%;
+        padding: 0.5rem 1rem;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        outline: none;
+      }
+
+      .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        cursor: pointer;
+      }
+
+      .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--primary-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+      }
+
+      /* Main Content */
+      .main-content {
+        margin-left: var(--sidebar-width);
+        padding: calc(var(--header-height) + 2rem) 2rem 2rem;
+      }
+
+      .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+
+      .team-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+      }
+
+      .team-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .member-photo {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+      }
+
+      .member-info {
+        padding: 1.5rem;
+        text-align: center;
+      }
+
+      .member-name {
+        color: var(--primary-color);
+        font-size: 1.4rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .member-id {
+        color: #666;
+        margin-bottom: 0.5rem;
+      }
+
+      .member-role {
+        color: var(--secondary-color);
+        font-weight: 500;
+      }
+
+      .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .social-links a {
+        color: #666;
+        transition: 0.3s;
+      }
+
+      .social-links a:hover {
+        color: var(--primary-color);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .sidebar {
+          transform: translateX(-100%);
+        }
+
+        .header {
+          left: 0;
+        }
+
+        .main-content {
+          margin-left: 0;
+        }
+
+        .sidebar.active {
+          transform: translateX(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <img src="Logo.jpg" alt="Logo" />
+        <h3>BMS Dashboard</h3>
+      </div>
+      <nav>
+        <div class="nav-item active">
+          <i class="fas fa-home"></i>
+          <span>Home</span>
+        </div>
+        <div class="nav-item">
+          <i class="fas fa-chart-line"></i>
+          <span>Analytics</span>
+        </div>
+        <div class="nav-item">
+          <i class="fas fa-tasks"></i>
+          <span>Tasks</span>
+        </div>
+        <div class="nav-item">
+          <i class="fas fa-calendar"></i>
+          <span>Schedule</span>
+        </div>
+        <div class="nav-item">
+          <i class="fas fa-cog"></i>
+          <span>Settings</span>
+        </div>
+        <div class="nav-item">
+          <i class="fas fa-question-circle"></i>
+          <span>Help</span>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="search-bar">
+        <input type="text" placeholder="Search..." />
+      </div>
+      <div class="user-profile">
+        <div class="notifications">
+          <i class="fas fa-bell"></i>
+        </div>
+        <div class="user-avatar">BR</div>
+        <div class="user-info">
+          <h4>Boppana Rohith</h4>
+          <small>Team Lead</small>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="team-grid">
+        <!-- Team Member 1 -->
+        <div class="team-card">
+          <img src="BR.jpg" alt="Boppana Rohith" class="member-photo" />
+          <div class="member-info">
+            <h3 class="member-name">Boppana Rohith</h3>
+            <p class="member-id">99220041454</p>
+            <p class="member-role">Team Lead</p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-linkedin"></i></a>
+              <a href="#"><i class="fab fa-github"></i></a>
+              <a href="#"><i class="fas fa-envelope"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Team Member 2 -->
+        <div class="team-card">
+          <img src="YVS.jpeg" alt="Yerla Vinayasree" class="member-photo" />
+          <div class="member-info">
+            <h3 class="member-name">Yerla Vinayasree</h3>
+            <p class="member-id">99220041423</p>
+            <p class="member-role">Team Member</p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-linkedin"></i></a>
+              <a href="#"><i class="fab fa-github"></i></a>
+              <a href="#"><i class="fas fa-envelope"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Team Member 3 -->
+        <div class="team-card">
+          <img src="BYB.jpg" alt="Bachula Yaswanth Babu" class="member-photo" />
+          <div class="member-info">
+            <h3 class="member-name">Bacula Yaswanth Babu</h3>
+            <p class="member-id">99220041438</p>
+            <p class="member-role">Team Member</p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-linkedin"></i></a>
+              <a href="#"><i class="fab fa-github"></i></a>
+              <a href="#"><i class="fas fa-envelope"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Team Member 4 -->
+        <div class="team-card">
+          <img src="APS.jpg" alt="Anisetty Sai Prajwin" class="member-photo" />
+          <div class="member-info">
+            <h3 class="member-name">Anisetty Sai Prajwin</h3>
+            <p class="member-id">99220041438</p>
+            <p class="member-role">Team Member</p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-linkedin"></i></a>
+              <a href="#"><i class="fab fa-github"></i></a>
+              <a href="#"><i class="fas fa-envelope"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      // Toggle sidebar on mobile
+      document.querySelector(".user-profile").addEventListener("click", () => {
+        document.querySelector(".sidebar").classList.toggle("active");
+      });
+
+      // Handle navigation
+      document.querySelectorAll(".nav-item").forEach((item) => {
+        item.addEventListener("click", () => {
+          document
+            .querySelectorAll(".nav-item")
+            .forEach((nav) => nav.classList.remove("active"));
+          item.classList.add("active");
+        });
+      });
+    </script>
+  </body>
+</html>
