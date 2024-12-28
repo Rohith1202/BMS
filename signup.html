@@ -13,7 +13,7 @@
       }
 
       body {
-        height: 120vh;
+        height: 110vh;
         display: flex;
         flex-direction: row;
         background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
@@ -36,8 +36,8 @@
       /* Logo styling */
       .logo {
         position: absolute;
-        top: 50px;
-        left: 50px;
+        top: -30px;
+        left: -50px;
         width: 500px; /* Adjust the size as needed */
       }
 
@@ -67,6 +67,7 @@
       }
 
       .signup-container {
+        position: relative;
         background: rgba(255, 255, 255, 0.95);
         padding: 2rem;
         border-radius: 1rem;
@@ -233,6 +234,54 @@
         animation: slideIn 0.5s ease-out;
       }
 
+      .error-message {
+        color: #ff0000;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+        display: none;
+      }
+
+      .spinner-overlay {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 1rem;
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* Spinner Animation */
+      .spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #1e3c72;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      .spinner-text {
+        position: absolute;
+        margin-top: 60px;
+        color: #1e3c72;
+        font-size: 0.9rem;
+        font-weight: 500;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
       @media (max-width: 768px) {
         body {
           flex-direction: column;
@@ -256,6 +305,10 @@
 
     <div class="right-panel">
       <div class="signup-container">
+        <div class="spinner-overlay">
+          <div class="spinner"></div>
+          <div class="spinner-text">Creating your account...</div>
+        </div>
         <div id="successMessage" class="success-message">
           Account created successfully! Please Login into your Account
         </div>
@@ -266,28 +319,33 @@
               >First Name<span class="mandatory">*</span></label
             >
             <input type="text" id="firstName" required />
+            <div id="firstNameError" class="error-message"></div>
           </div>
           <div class="input-group">
             <label for="lastName"
               >Last Name<span class="mandatory">*</span></label
             >
             <input type="text" id="lastName" required />
+            <div id="lastNameError" class="error-message"></div>
           </div>
           <div class="input-group">
             <label for="email">Email<span class="mandatory">*</span></label>
             <input type="email" id="email" required />
+            <div id="emailError" class="error-message"></div>
           </div>
           <div class="input-group">
             <label for="password"
               >Password<span class="mandatory">*</span></label
             >
             <input type="password" id="password" required />
+            <div id="passwordError" class="error-message"></div>
           </div>
           <div class="input-group">
             <label for="confirmPassword"
               >Confirm Password<span class="mandatory">*</span></label
             >
             <input type="password" id="confirmPassword" required />
+            <div id="confirmPasswordError" class="error-message"></div>
           </div>
           <div class="terms-and-conditions">
             <input type="checkbox" id="terms" required />
@@ -296,8 +354,9 @@
               <a href="#" class="terms-btn">Terms and Conditions</a
               ><span class="mandatory">*</span>
             </label>
+            <div id="termsError" class="error-message"></div>
           </div>
-          <button type="submit">Submit</button>
+          <button type="submit" class="submit-btn">Submit</button>
           <div class="login-link">
             <span>Already have an account?</span>
             <a href="login.html">Log In</a>
@@ -311,8 +370,75 @@
         <span class="close">&times;</span>
         <h2>Terms and Conditions</h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
-          lacinia odio vitae vestibulum vestibulum.
+          <strong>1. Acceptance of Terms:</strong><br />
+          By using this application, you agree to the following terms and
+          conditions. If you do not agree, please refrain from using the
+          application.
+        </p>
+        <p>
+          <strong>2. Purpose:</strong><br />
+          This application is designed to monitor behavioral patterns of
+          non-verbal residents using sensor data and machine learning
+          algorithms. It is intended to assist caregivers by providing
+          actionable insights.
+        </p>
+        <p>
+          <strong>3. Data Collection and Privacy:</strong><br />
+          a. The system collects data such as facial expressions, physiological
+          signals, motion patterns, and audio cues.<br />
+          b. All data collected will be securely stored and processed in
+          compliance with relevant data protection laws.<br />
+          c. Personal and sensitive data will not be shared with third parties
+          without explicit consent.
+        </p>
+        <p>
+          <strong>4. Usage Disclaimer:</strong><br />
+          a. This application provides insights based on algorithmic analysis
+          and should not replace professional medical advice.<br />
+          b. Users are advised to consult qualified professionals for any
+          health-related concerns.
+        </p>
+        <p>
+          <strong>5. User Responsibilities:</strong><br />
+          a. Users must ensure the accuracy of the data entered into the
+          system.<br />
+          b. Users are responsible for maintaining the security of their
+          accounts and ensuring unauthorized access is prevented.
+        </p>
+        <p>
+          <strong>6. Intellectual Property:</strong><br />
+          a. All intellectual property related to the application, including
+          software, design, and documentation, is owned by the developers.<br />
+          b. Unauthorized reproduction, distribution, or modification of the
+          application is strictly prohibited.
+        </p>
+        <p>
+          <strong>7. Limitation of Liability:</strong><br />
+          The developers are not liable for any damages or losses resulting from
+          the use or inability to use the application, including but not limited
+          to data inaccuracies or system errors.
+        </p>
+        <p>
+          <strong>8. Modifications to Terms:</strong><br />
+          The developers reserve the right to update or modify these terms at
+          any time. Users will be notified of significant changes, and continued
+          use of the application constitutes acceptance of the updated terms.
+        </p>
+        <p>
+          <strong>9. Termination:</strong><br />
+          The developers reserve the right to suspend or terminate access to the
+          application in case of violation of these terms or misuse of the
+          system.
+        </p>
+        <p>
+          <strong>10. Governing Law:</strong><br />
+          These terms are governed by and construed in accordance with the laws
+          of the jurisdiction in which the application is deployed.
+        </p>
+        <p>
+          <strong>11. Contact:</strong><br />
+          For any questions or concerns regarding these terms, please contact
+          our support team.
         </p>
       </div>
     </div>
@@ -332,6 +458,17 @@
       const modal = document.getElementById("termsModal");
       const termsBtn = document.querySelector(".terms-btn");
       const closeBtn = document.querySelector(".close");
+
+      // Add spinner control functions
+      function showSpinner() {
+        const spinner = document.querySelector(".spinner-overlay");
+        spinner.style.display = "flex";
+      }
+
+      function hideSpinner() {
+        const spinner = document.querySelector(".spinner-overlay");
+        spinner.style.display = "none";
+      }
 
       termsBtn.onclick = (e) => {
         e.preventDefault();
@@ -388,10 +525,10 @@
         // Clear all form inputs
         form.reset();
 
-        // Hide the message after 3 seconds
+        // Hide the message after 6 seconds
         setTimeout(() => {
           successMessage.style.display = "none";
-        }, 3000);
+        }, 6000);
       }
 
       // Email/Password Sign up handler
@@ -447,6 +584,7 @@
           }
 
           try {
+            showSpinner(); // Show spinner before starting the signup process
             const userCredential = await createUserWithEmailAndPassword(
               auth,
               email,
@@ -455,12 +593,16 @@
             const user = userCredential.user;
             console.log("User signed up:", user);
 
+            hideSpinner(); // Hide spinner after successful signup
+            showSuccessMessage();
+
             // Here you would typically store additional user data (first name, last name)
             // in Firebase Firestore or Realtime Database
 
             // Show success message and redirect
             showSuccessMessage();
           } catch (error) {
+            hideSpinner(); // Hide spinner if there's an error
             console.error("Sign up error:", error);
             if (error.code === "auth/email-already-in-use") {
               showError("emailError", "Email already in use");
