@@ -14,7 +14,7 @@
       }
 
       body {
-        height: 130vh;
+        height: 100vh;
         display: flex;
         flex-direction: row;
         background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
@@ -36,7 +36,7 @@
 
       .logo {
         position: absolute;
-        top: -50px;
+        top: -100px;
         left: -50px;
         width: 500px;
       }
@@ -67,6 +67,17 @@
         text-transform: uppercase;
       }
 
+      .spinner {
+        display: none;
+        width: 20px;
+        height: 20px;
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #1e3c72;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+      }
+
       @keyframes shimmer {
         0% {
           background-position: -200% center;
@@ -74,6 +85,27 @@
         100% {
           background-position: 200% center;
         }
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      button:disabled {
+        background: #a0aec0;
+        cursor: not-allowed;
+      }
+
+      .button-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
       }
 
       .login-container {
@@ -255,7 +287,12 @@
             <label for="remember">Remember me</label>
           </div>
 
-          <button type="submit">Sign In</button>
+          <button type="submit">
+            <div class="button-content">
+              <div class="spinner" id="spinner"></div>
+              <span>Sign In</span>
+            </div>
+          </button>
         </form>
         <div class="divider"><span>or</span></div>
         <button class="google-btn" id="google-btn">
@@ -299,9 +336,9 @@
         getAuth,
         GoogleAuthProvider,
         signInWithPopup,
+        signInWithEmailAndPassword,
       } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
 
-      // Firebase configuration
       const firebaseConfig = {
         apiKey: "AIzaSyCvHiTAGdlMaH2WNb4LmxlUMJ9BIwNxF_g",
         authDomain: "bms-exsel.firebaseapp.com",
@@ -312,36 +349,97 @@
         measurementId: "G-L8S1N8Q0CD",
       };
 
-      // Initialize Firebase
       const app = initializeApp(firebaseConfig);
       const auth = getAuth(app);
       auth.languageCode = "en";
       const provider = new GoogleAuthProvider();
 
-      // Add click event listener to the Google sign-in button
+      function setLoading(isLoading) {
+        const spinner = document.getElementById("spinner");
+        const submitButton = document.querySelector('button[type="submit"]');
+        const googleButton = document.getElementById("google-btn");
+
+        if (isLoading) {
+          spinner.style.display = "block";
+          submitButton.disabled = true;
+          googleButton.disabled = true;
+        } else {
+          spinner.style.display = "none";
+          submitButton.disabled = false;
+          googleButton.disabled = false;
+        }
+      }
+
       const googleLogin = document.getElementById("google-btn");
-      googleLogin.addEventListener("click", function () {
-        signInWithPopup(auth, provider)
-          .then((result) => {
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const user = result.user;
-            console.log(user);
-            window.location.href = "dashboard-layout.html";
-          })
-          .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.error("Error:", errorCode, errorMessage);
-          });
+      googleLogin.addEventListener("click", async function () {
+        setLoading(true);
+        try {
+          const result = await signInWithPopup(auth, provider);
+          console.log("Successfully signed in with Google:", result.user);
+          window.location.href = "dashboard.html";
+        } catch (error) {
+          console.error("Google Sign-in Error:", error.code, error.message);
+          alert("Error signing in with Google: " + error.message);
+        } finally {
+          setLoading(false);
+        }
       });
 
-      // Handle regular email/password login
       const loginForm = document.getElementById("loginForm");
-      loginForm.addEventListener("submit", (e) => {
+      loginForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
-        // Add your email/password login logic here
+
+        setLoading(true);
+        try {
+          const userCredential = await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+          console.log(
+            "Successfully signed in with email:",
+            userCredential.user
+          );
+
+          const rememberMe = document.getElementById("remember").checked;
+          if (rememberMe) {
+            localStorage.setItem("rememberUser", "true");
+          } else {
+            localStorage.removeItem("rememberUser");
+          }
+
+          window.location.href = "dashboard-layout.html";
+        } catch (error) {
+          console.error(
+            "Email/Password Sign-in Error:",
+            error.code,
+            error.message
+          );
+
+          let userMessage =
+            "An error occurred during sign in. Please try again.";
+          switch (error.code) {
+            case "auth/invalid-email":
+              userMessage = "Please enter a valid email address.";
+              break;
+            case "auth/user-disabled":
+              userMessage =
+                "This account has been disabled. Please contact support.";
+              break;
+            case "auth/user-not-found":
+              userMessage =
+                "No account found with this email. Please sign up first.";
+              break;
+            case "auth/wrong-password":
+              userMessage = "Incorrect password. Please try again.";
+              break;
+          }
+          alert(userMessage);
+        } finally {
+          setLoading(false);
+        }
       });
     </script>
   </body>
