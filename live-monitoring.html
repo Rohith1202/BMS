@@ -1115,7 +1115,7 @@ function updateActiveSidebarItem(pageUrl) {
         signOut(auth)
           .then(() => {
             console.log("User signed out.");
-            window.location.href = "{{ url_for('home') }}";
+            window.location.href = "index.html";
           })
           .catch((error) => {
             console.error("Logout Error:", error);
