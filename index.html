@@ -376,7 +376,7 @@
         try {
           const result = await signInWithPopup(auth, provider);
           console.log("Successfully signed in with Google:", result.user);
-          window.location.href = "dashboard-layout.html";
+          window.location.href = "dashboard.html";
         } catch (error) {
           console.error("Google Sign-in Error:", error.code, error.message);
           alert("Error signing in with Google: " + error.message);
