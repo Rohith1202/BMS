@@ -414,9 +414,88 @@
 
     <!-- Main Content Area -->
     <div id="main-content" class="main-content">
-      <!-- Content will be loaded here dynamically -->
-      <h1>Welcome to BMS Dashboard</h1>
-      <p>Please select an option from the sidebar to get started.</p>
+      <div class="home-container">
+        <div class="home-sections">
+          <div class="home-card">
+            <i class="fas fa-video"></i>
+            <h3>Live Monitoring</h3>
+            <p>Get real-time insights into system activity and events.</p>
+          </div>
+          <div class="home-card">
+            <i class="fas fa-chart-line"></i>
+            <h3>Analytics</h3>
+            <p>View detailed analytics and trends from collected data.</p>
+          </div>
+          <div class="home-card">
+            <i class="fas fa-bell"></i>
+            <h3>Notifications</h3>
+            <p>Stay informed with alerts about important system events.</p>
+          </div>
+          <div class="home-card">
+            <i class="fas fa-file-alt"></i>
+            <h3>Reports</h3>
+            <p>Download reports and analyze system performance over time.</p>
+          </div>
+        </div>
+      </div>
+
+      <style>
+        .home-container {
+          text-align: center;
+          padding: 2rem;
+          max-width: 900px;
+          margin: auto;
+        }
+
+        .home-container h2 {
+          color: #1e3c72;
+          font-size: 2rem;
+          margin-bottom: 1rem;
+        }
+
+        .home-container p {
+          color: #555;
+          font-size: 1.2rem;
+          margin-bottom: 2rem;
+        }
+
+        .home-sections {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 1.5rem;
+          justify-content: center;
+        }
+
+        .home-card {
+          background: white;
+          padding: 1.5rem;
+          border-radius: 10px;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          text-align: center;
+        }
+
+        .home-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .home-card i {
+          font-size: 2rem;
+          color: #3498db;
+          margin-bottom: 1rem;
+        }
+
+        .home-card h3 {
+          color: #1e3c72;
+          margin-bottom: 0.5rem;
+        }
+
+        .home-card p {
+          color: #666;
+          font-size: 1rem;
+        }
+      </style>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
